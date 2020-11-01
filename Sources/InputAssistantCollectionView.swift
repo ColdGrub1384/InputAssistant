@@ -122,6 +122,11 @@ private class InputAssistantCollectionViewCell: UICollectionViewCell {
         label = UILabel()
         
         super.init(frame: frame)
+        
+        if #available(iOS 13.4, *) {
+            let pointer = UIPointerInteraction(delegate: self)
+            addInteraction(pointer)
+        }
 
         label.textAlignment = .center
         
@@ -156,4 +161,10 @@ private class InputAssistantCollectionViewCell: UICollectionViewCell {
     }
 }
 
-
+@available(iOS 13.4, *)
+extension InputAssistantCollectionViewCell: UIPointerInteractionDelegate {
+    
+    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+        return UIPointerStyle(effect: .lift(UITargetedPreview(view: self)), shape: .none)
+    }
+}
